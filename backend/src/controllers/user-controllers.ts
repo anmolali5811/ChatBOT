@@ -37,10 +37,13 @@ export const userSignup = async (
     res.clearCookie(COOKIE_NAME);
 
     const token = createToken(user._id.toString(), user.email, "7d");
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+    res.cookie(COOKIE_NAME, token);
 
     return res
       .status(201)
-      .json({ message: "OK", name: user.name, email: user.email, token });
+      .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
@@ -69,10 +72,15 @@ export const userLogin = async (
     res.clearCookie(COOKIE_NAME);
 
     const token = createToken(user._id.toString(), user.email, "7d");
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+    res.cookie(COOKIE_NAME, token, {
+      expires,
+    });
 
     return res
       .status(200)
-      .json({ message: "OK", name: user.name, email: user.email, token });
+      .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
