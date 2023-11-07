@@ -33,13 +33,7 @@ export const userSignup = async (req, res, next) => {
         const token = createToken(user._id.toString(), user.email, "7d");
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
-        res.cookie(COOKIE_NAME, token, {
-            path: "/",
-            domain: "localhost",
-            expires,
-            httpOnly: true,
-            signed: true,
-        });
+        res.cookie(COOKIE_NAME, token);
         return res
             .status(201)
             .json({ message: "OK", name: user.name, email: user.email });
@@ -64,7 +58,6 @@ export const userLogin = async (req, res, next) => {
         // create token and store cookie
         res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
-            domain: "localhost",
             signed: true,
             path: "/",
         });
@@ -73,7 +66,6 @@ export const userLogin = async (req, res, next) => {
         expires.setDate(expires.getDate() + 7);
         res.cookie(COOKIE_NAME, token, {
             path: "/",
-            domain: "localhost",
             expires,
             httpOnly: true,
             signed: true,

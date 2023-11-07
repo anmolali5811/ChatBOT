@@ -44,12 +44,7 @@ export const userSignup = async (
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
-    res.cookie(COOKIE_NAME, token, {
-      path: "/",
-      expires,
-      httpOnly: true,
-      signed: true,
-    });
+    res.cookie(COOKIE_NAME, token);
 
     return res
       .status(201)
@@ -81,7 +76,6 @@ export const userLogin = async (
 
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
       signed: true,
       path: "/",
     });
