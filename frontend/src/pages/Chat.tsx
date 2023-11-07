@@ -18,7 +18,7 @@ type Message = {
   content: string;
 };
 
-const socket = io("http://localhost:5000", {
+const socket = io("https://chatbot-i6l8.onrender.com", {
   path: "/api/socket.io",
 });
 
