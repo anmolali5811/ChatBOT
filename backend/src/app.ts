@@ -8,7 +8,7 @@ config();
 const app = express();
 
 //middlewares
-app.use(cors({ origin: ["http://localhost:5173", "https://chat-bot-dx69.vercel.app"], credentials: true }));
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
