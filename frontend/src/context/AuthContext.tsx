@@ -11,6 +11,7 @@ import {
   logoutUser,
   signupUser,
 } from "../helpers/api-communicator";
+import axios from "axios";
 
 type User = {
   name: string;
@@ -44,6 +45,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const data = await loginUser(email, password);
     if (data) {
       setUser({ email: data.email, name: data.name });
+      localStorage.setItem("auth_token", 'Bearer ' + data.token);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
       setIsLoggedIn(true);
     }
   };
@@ -51,6 +54,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const data = await signupUser(name, email, password);
     if (data) {
       setUser({ email: data.email, name: data.name });
+      localStorage.setItem("auth_token", 'Bearer ' + data.token);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
       setIsLoggedIn(true);
     }
   };
@@ -58,6 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await logoutUser();
     setIsLoggedIn(false);
     setUser(null);
+    localStorage.setItem("auth_token", 'Bearer ' + '');
     window.location.reload();
   };
 
