@@ -34,12 +34,7 @@ export const userSignup = async (
     await user.save();
 
     // create token and store cookie
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      domain: "localhost",
-      signed: true,
-      path: "/",
-    });
+    res.clearCookie(COOKIE_NAME);
 
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -74,20 +69,13 @@ export const userLogin = async (
 
     // create token and store cookie
 
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      signed: true,
-      path: "/",
-    });
+    res.clearCookie(COOKIE_NAME);
 
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
-      path: "/",
       expires,
-      httpOnly: true,
-      signed: true,
     });
 
     return res
@@ -137,12 +125,7 @@ export const userLogout = async (
       return res.status(401).send("Permissions didn't match");
     }
 
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      domain: "localhost",
-      signed: true,
-      path: "/",
-    });
+    res.clearCookie(COOKIE_NAME);
 
     return res
       .status(200)
