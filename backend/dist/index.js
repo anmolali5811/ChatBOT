@@ -8,7 +8,7 @@ const io = new Server(httpServer, {
     path: "/api/socket.io",
     cookie: true,
     pingTimeout: 60000,
-    cors: { credentials: true, origin: ["http://localhost:5173", "https://chat-bot-dx69.vercel.app"] },
+    cors: { credentials: true, origin: true },
 });
 io.on("connection", (socket) => {
     socket.on("new message", (userEmail) => {
